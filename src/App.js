@@ -3,6 +3,7 @@ import CheckBoxes from "./Components/CheckBoxes";
 import RadioButtons from "./Components/RadioButtons";
 import Textarea from "./Components/Textarea";
 import Select from "./Components/Select";
+import Account from "./Components/Account";
 
 class Content extends React.Component {
   state = {
@@ -19,7 +20,8 @@ class Content extends React.Component {
     },
     description: `With the right pattern, applications will be more scalable and easier to maintain.
 If you aspire one day to become a Node.js architect (or maybe you're already one and want to extend your knowledge), this presentation is for you.`,
-    selectedValue: 'node'
+    selectedValue: 'node',
+    accountNumber: ''
   };
   handleRadio = event => {
     let obj = {...this.state.radioGroup};
@@ -50,6 +52,11 @@ If you aspire one day to become a Node.js architect (or maybe you're already one
       selectedValue: event.target.value
     })
   };
+  handleAccountNumberChange = event => {
+    this.setState({
+      accountNumber: event.target.value.replace(/[^0-9]/gi, "")
+    })
+  };
 
   render() {
     return (
@@ -69,6 +76,11 @@ If you aspire one day to become a Node.js architect (or maybe you're already one
         <hr/>
         <Select selectedValue={['python', 'ruby']}
                 multiple={true} />
+        <hr />
+        <Account
+          handleChange={this.handleAccountNumberChange}
+          accountNumber={this.state.accountNumber}
+        />
       </form>
     );
   }
