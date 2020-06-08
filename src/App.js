@@ -21,6 +21,7 @@ class Content extends React.Component {
     description: `With the right pattern, applications will be more scalable and easier to maintain.
 If you aspire one day to become a Node.js architect (or maybe you're already one and want to extend your knowledge), this presentation is for you.`,
     selectedValue: 'node',
+    selectedMultipleValue: ['ruby'],
     accountNumber: ''
   };
   handleRadio = event => {
@@ -48,10 +49,27 @@ If you aspire one day to become a Node.js architect (or maybe you're already one
     })
   };
   handleSelectChange = event => {
+    console.log(event.target.value);
+    
     this.setState({
       selectedValue: event.target.value
     })
   };
+  handleSelectMultipleChange = event => {
+    const tarValue = event.target.value;
+
+    if(this.state.selectedMultipleValue.some(value => value === tarValue)){
+      this.setState(state => ({
+          selectedMultipleValue: state.selectedMultipleValue.filter(value => value !== tarValue)
+        })
+      ) 
+    } else {
+      this.setState(state => ({
+          selectedMultipleValue: [...state.selectedMultipleValue, tarValue] 
+        })
+      )
+    }
+  }
   handleAccountNumberChange = event => {
     this.setState({
       accountNumber: event.target.value.replace(/[^0-9]/gi, "")
@@ -74,7 +92,8 @@ If you aspire one day to become a Node.js architect (or maybe you're already one
                 handleSelectChange={this.handleSelectChange}
                 multiple={false} />
         <hr/>
-        <Select selectedValue={['python', 'ruby']}
+        <Select selectedValue={this.state.selectedMultipleValue}
+                handleSelectChange={this.handleSelectMultipleChange}
                 multiple={true} />
         <hr />
         <Account
